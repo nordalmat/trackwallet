@@ -1,9 +1,8 @@
-import json
 import datetime
-
-from django.db import models
+import json
 
 from authentication.models import User
+from django.db import models
 
 
 class Category(models.Model):

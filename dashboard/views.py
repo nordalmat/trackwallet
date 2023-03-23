@@ -1,15 +1,15 @@
-from django.shortcuts import render
-from django.utils import timezone
-from django.http import JsonResponse
-from django.db.models import Sum
+from authentication.models import User
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth.decorators import login_required
-
-from .utils import expense_summary, income_summary
-from authentication.models import User
-from expenses.models import Expense, Category
+from django.db.models import Sum
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.utils import timezone
+from expenses.models import Category, Expense
 from income.models import Income, Source
 from preferences.models import Currency
+
+from .utils import expense_summary, income_summary
 
 
 def index(request):

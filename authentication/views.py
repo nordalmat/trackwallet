@@ -1,18 +1,18 @@
 import json
 
-from validate_email import validate_email
-from django.urls import reverse
-from django.shortcuts import render, redirect
-from django.views import View
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
-from django.contrib.auth import authenticate, login, logout
+from django.views import View
+from validate_email import validate_email
 
 from .models import User
-from .utils import validate_password, activate_email
 from .tokens import account_activation_token
+from .utils import activate_email, validate_password
 
 
 class RegistrationView(View):
@@ -42,7 +42,7 @@ class RegistrationView(View):
             messages.error(request, 'Username is already taken!')
         return render(request, 'authentication/register.html', {
             'username': username,
-            'email': email
+            'email': email,
         })
 
 

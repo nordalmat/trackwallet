@@ -1,17 +1,16 @@
 import csv
-import xlwt
 import tempfile
-from weasyprint import HTML
 
-from django.db.models import Sum
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.utils import timezone
-from django.template.loader import render_to_string
+import xlwt
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Sum
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.template.loader import render_to_string
+from django.utils import timezone
 from expenses.models import Expense
 from income.models import Income
+from weasyprint import HTML
 
 
 @login_required(login_url='/authentication/login/')
@@ -57,7 +56,7 @@ def export_pdf_expenses(request):
     total = expenses.aggregate(Sum('amount'))
     html_string = render_to_string('export/pdf-output.html', {
         'expenses': expenses,
-        'total': total
+        'total': total,
     })
     html = HTML(string=html_string)
     result = html.write_pdf()
@@ -112,7 +111,7 @@ def export_pdf_income(request):
     total = income.aggregate(Sum('amount'))
     html_string = render_to_string('export/pdf-output.html', {
         'income': income,
-        'total': total
+        'total': total,
     })
     html = HTML(string=html_string)
     result = html.write_pdf()

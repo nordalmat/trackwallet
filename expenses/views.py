@@ -1,11 +1,11 @@
-from django.urls import reverse
-from django.shortcuts import render, redirect
-from django.utils import timezone
+from authentication.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.utils import timezone
 
 from .models import Category, Expense
-from authentication.models import User
 
 
 def index(request):
@@ -25,7 +25,7 @@ def add_expense(request):
     categories = Category.objects.all()
     if request.method == 'GET':
         return render(request, 'expenses/add_expense.html', {
-            'categories': categories
+            'categories': categories,
         })
     elif request.method == 'POST':
         amount = request.POST['amount']
@@ -43,7 +43,7 @@ def add_expense(request):
             return render(request, 'expenses/add_expense.html', {
             'categories': categories,
             'request': request.POST,
-            'selected_category': category
+            'selected_category': category,
             })
         else:
             Expense.objects.create(
@@ -66,7 +66,7 @@ def edit_expense(request, id):
             'expense': expense,
             'expense_id': expense.id,
             'categories': categories,
-            'selected_category': expense.category
+            'selected_category': expense.category,
         })
     elif request.method == 'POST':
         amount = request.POST['amount']
@@ -85,7 +85,7 @@ def edit_expense(request, id):
                 'categories': categories,
                 'expense_id': expense.id,
                 'expense': request.POST,
-                'selected_category': category
+                'selected_category': category,
             })
         else:
             expense.amount = amount

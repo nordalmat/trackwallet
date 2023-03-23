@@ -1,12 +1,12 @@
-from django.shortcuts import render
-from django.utils import timezone
-from django.http import JsonResponse
-from django.db.models import Sum
+from authentication.models import User
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth.decorators import login_required
-
-from authentication.models import User
+from django.db.models import Sum
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.utils import timezone
 from expenses.models import Expense
+
 from .utils import get_labels
 
 

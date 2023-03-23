@@ -9,5 +9,4 @@ urlpatterns = [
     path('export-csv-income/', views.export_csv_income, name='export-csv-income'),
     path('export-xlsx-income/', views.export_xlsx_income, name='export-xlsx-income'),
     path('export-pdf-income/', views.export_pdf_income, name='export-pdf-income'),
-
 ]

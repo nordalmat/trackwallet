@@ -9,5 +9,4 @@ urlpatterns = [
     path('search-currency/', csrf_exempt(views.search_currency), name='search-currency'),
     path('search-income/', csrf_exempt(views.search_income), name='search-income'),
     path('search-source/', csrf_exempt(views.search_source), name='search-source'),
-
 ]

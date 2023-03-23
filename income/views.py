@@ -1,11 +1,12 @@
-from django.urls import reverse
-from django.shortcuts import render, redirect
-from django.utils import timezone
+from authentication.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.utils import timezone
 
 from .models import Income, Source
-from authentication.models import User
+
 
 def index(request):
     if request.user.is_authenticated:
@@ -14,7 +15,7 @@ def index(request):
         planned_incomes = Income.objects.filter(author=request.user, income_date__gt=today).order_by('-income_date')
         return render(request, 'income/index.html', {
             'past_incomes': past_incomes,
-            'planned_income': planned_incomes
+            'planned_income': planned_incomes,
         })
     return render(request, 'income/index.html')
 
@@ -24,7 +25,7 @@ def add_income(request):
     sources = Source.objects.all()
     if request.method == 'GET':
         return render(request, 'income/add_income.html', {
-            'sources': sources
+            'sources': sources,
         })
     elif request.method == 'POST':
         amount = request.POST['amount']
@@ -42,7 +43,7 @@ def add_income(request):
             return render(request, 'income/add_income.html', {
                 'sources': sources,
                 'request': request.POST,
-                'selected_source': source
+                'selected_source': source,
             })
         else:
             Income.objects.create(
@@ -84,7 +85,7 @@ def edit_income(request, id):
                 'sources': sources,
                 'income': request.POST,
                 'income_id': income.id,
-                'selected_source': source
+                'selected_source': source,
             })
         else:
             income.amount = amount

@@ -1,11 +1,10 @@
 import json
 
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-
-from expenses.models import Expense, Category
+from django.db.models import Q
+from django.http import JsonResponse
+from django.shortcuts import render
+from expenses.models import Category, Expense
 from income.models import Income, Source
 from preferences.models import Currency
 
