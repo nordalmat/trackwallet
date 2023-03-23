@@ -1,0 +1,164 @@
+{% extends 'layout/layout_index.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% include 'partials/_messages.html' %}
+                <h1>Expenses</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb my-3">
+                      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">My Expenses</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        {% if user.is_authenticated %}
+            {% if user.is_active %}
+                <div class="row">
+                    <div class="col-md-6">
+                        {% include 'partials/_searchbar.html' %}
+                    </div>
+                    <div class="col-md-6 d-flex justify-content-space-between">
+                        {% include 'partials/_toolbar-expense-enabled.html' %}
+                    </div>
+                </div>
+                <div class="row my-3 base-table">
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                          <tr>
+                            <th scope="col" class="col">Date</th>
+                            <th scope="col" class="col">Amount</th>
+                            <th scope="col" class="col">Category</th>
+                            <th scope="col" class="col">Description</th>
+                            <th scope="col" class="edit"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for expense in past_expenses %}
+                                <tr>
+                                    <td>{{ expense.expense_date }}</td>
+                                    <td>{{ expense.amount }} {{ user.currency }}</td>
+                                    <td>{{ expense.category }}</td>
+                                    <td>{{ expense.description }}</td>
+                                    <td><a href="{% url 'edit-expense' expense.id %}" type="button" class="btn btn-outline-dark btn-sm">Edit</a></td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center"><h5>No results.</h5></td>
+                                </tr> 
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row planned-label">
+                    <h5>Planned Future Expenses</h5>
+                </div>
+                <div class="row my-3 future-table">
+                    <table class="table table-hover w-100">
+                        <thead class="thead-dark">
+                          <tr>
+                            <th scope="col" class="col">Date</th>
+                            <th scope="col" class="col">Amount</th>
+                            <th scope="col" class="col">Category</th>
+                            <th scope="col" class="col">Description</th>
+                            <th scope="col" class="edit"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for expense in planned_expenses %}
+                                <tr>
+                                    <td>{{ expense.expense_date }}</td>
+                                    <td>{{ expense.amount }} {{ user.currency }}</td>
+                                    <td>{{ expense.category }}</td>
+                                    <td>{{ expense.description }}</td>
+                                    <td><a href="{% url 'edit-expense' expense.id %}" type="button" class="btn btn-outline-dark btn-sm">Edit</button></td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center"><h5>No results.</h5></td>
+                                </tr>        
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row my-3 search-table">
+                    <table class="table table-hover w-100">
+                        <thead class="thead-dark">
+                          <tr>
+                            <th scope="col" class="col">Date</th>
+                            <th scope="col" class="col">Amount ({{ user.currency }})</th>
+                            <th scope="col" class="col">Category</th>
+                            <th scope="col" class="col">Description</th>
+                            <th scope="col" class="edit"></th>
+                          </tr>
+                        </thead>
+                        <tbody class="search-table-body">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row my-3 no-results" style="height: 30vh;">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-8 d-flex justify-content-center align-items-center">
+                        <div class="card w-100">
+                            <div class="card-title pt-2 text-center align-items-center">
+                                <h5>No results.</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col-md-6">
+                        {% include 'partials/_searchbar.html' %}
+                    </div>
+                    <div class="col-md-6 d-flex justify-content-space-between">
+                        {% include 'partials/_toolbar-expense-disabled.html' %}
+                    </div>
+                </div>
+                <div class="row" style="height: 60vh;">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 d-flex justify-content-center align-items-center">
+                        <div class="card w-100">
+                            <div class="card-title pt-3 text-center align-items-center">
+                                <h5>You must activate your profile using activation link in your email inbox.</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="row">
+                <div class="col-md-6">
+                    {% include 'partials/_searchbar.html' %}
+                </div>
+                <div class="col-md-6 d-flex justify-content-space-between">
+                    {% include 'partials/_toolbar-expense-disabled.html' %}
+                </div>
+            </div>
+            <div class="row" style="height: 60vh;">
+                <div class="col-md-2"></div>
+                <div class="col-md-8 d-flex justify-content-center align-items-center">
+                    <div class="card w-100">
+                        <div class="card-title pt-3 text-center align-items-center">
+                            <h5>You must log in or register to be able to view and store your expenses.</h5>
+                        </div>
+                        <div class="card-body text-center">
+                            <a href="{% url 'login' %}" class="btn btn-primary btn-sm mx-3">Log In</a>
+                            <a href="{% url 'register' %}" class="btn btn-outline-primary btn-sm mx-3">Register</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        {% endif %}
+    </div>
+    <script src="{% static 'js/searchExpenses.js' %}"></script>
+    <script src="{% static 'js/calendarExpenses.js' %}"></script>
+{% endblock %}

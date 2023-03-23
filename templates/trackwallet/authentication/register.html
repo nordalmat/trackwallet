@@ -1,0 +1,47 @@
+{% extends 'layout/layout_auth.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="row" style="height: 100vh;">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 d-flex justify-content-center align-items-center">
+            <div class="card w-100">
+                <div class="card-title pt-3 text-center">
+                    <h5>SIGN UP</h5>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'register' %}" method="POST">
+                        {% csrf_token %}
+                        {% include 'partials/_messages.html'%}
+                        <div class="form-group">
+                            <input type="text" name="username" id="usernameField" placeholder="USERNAME" class="form-control form-control-sm" value="{{ username }}">
+                        </div>
+                        <div class="invalid-feedback mx-1" id="invalidUsername" style="display: none;"></div>
+                        <div class="form-group my-3">
+                            <input type="email" name="email" id="emailField" placeholder="EMAIL" class="form-control form-control-sm" value="{{ email }}">
+                        </div>
+                        <div class="invalid-feedback mx-1" id="invalidEmail" style="display: none;"></div>
+                        <div class="input-group my-3">
+                            <input type="password" name="password1" id="passwordField1" placeholder="PASSWORD" class="form-control form-control-sm">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="bi bi-eye-slash icon" id="togglePassword"></i></span>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback mx-1" id="invalidPassword1" style="display: none;"></div>
+                        <div class="input-group my-3">
+                            <input type="password" name="password2" id="passwordField2" placeholder="CONFIRM PASSWORD" class="form-control form-control-sm">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="bi bi-eye-slash icon" id="togglePassword"></i></span>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback mx-1" id="invalidPassword2" style="display: none;"></div>
+                        <input type="submit" value="REGISTER" class="btn btn-outline-primary submit-btn w-100 block">
+                        <a href="{% url 'login' %}" class="btn btn-primary submit-btn w-100 block my-3">I HAVE AN ACCOUNT</a>
+                    </form> 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <script src="{% static 'js/register.js' %}"></script>
+{% endblock %}

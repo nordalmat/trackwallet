@@ -1,0 +1,79 @@
+{% extends 'layout/layout_index.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% include 'partials/_messages.html'%}
+                <h1>Preferences</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb my-3">
+                      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">My Preferences</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        {% if user.is_authenticated %}
+            {% if user.is_active %}
+                <div class="row">
+                    <div class="card w-100">
+                        <div class="card-body">
+                            <form action="{% url 'preferences' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="input-group my-3">
+                                    <select class="form-control" name="currency">
+                                        {% if user_currency %}
+                                            {% for currency in currency_data %}
+                                                {% if currency == user_currency %}
+                                                    <option name="currency" value="{{ user_currency.ticker }}" selected>{{ user_currency.ticker }} - {{ user_currency.name }}</option>
+                                                {% else %}
+                                                    <option name="currency" value="{{ currency.ticker }}">{{ currency.ticker }} - {{ currency.name }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <option name="currency" value="" disabled selected>Select currency</option>
+                                            {% for currency in currency_data %}
+                                                <option name="currency" value="{{ currency.ticker }}">{{ currency.ticker }} - {{ currency.name }}</option>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                <input type="submit" class="btn btn-outline-primary btn-sm" value="Save">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row" style="height: 60vh;">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 d-flex justify-content-center align-items-center">
+                        <div class="card w-100">
+                            <div class="card-title pt-3 text-center align-items-center">
+                                <h5>You must activate your profile using activation link in your email inbox.</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="row" style="height: 60vh;">
+                <div class="col-md-2"></div>
+                <div class="col-md-8 d-flex justify-content-center align-items-center">
+                    <div class="card w-100">
+                        <div class="card-title pt-3 text-center align-items-center">
+                            <h5>You must log in or register to be able to adjust your settings.</h5>
+                        </div>
+                        <div class="card-body text-center">
+                            <a href="{% url 'login' %}" class="btn btn-primary btn-sm mx-3">Log In</a>
+                            <a href="{% url 'register' %}" class="btn btn-outline-primary btn-sm mx-3">Register</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        {% endif %}
+    </div> 
+{% endblock %}

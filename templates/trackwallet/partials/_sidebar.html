@@ -1,0 +1,52 @@
+{% load static %}
+
+<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+    <div class="sidebar-sticky">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link dashboard" href="{% url 'dashboard' %}">
+            <span data-feather="home"></span>
+            Dashboard <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link expenses" href="{% url 'expenses' %}">
+            <span data-feather="shopping-cart"></span>
+            Expenses
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link income" href="{% url 'income' %}">
+            <span data-feather="bar-chart-2"></span>
+            Income
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link expenses-progression" href="{% url 'expenses-progression' %}">
+            <span data-feather="bar-chart-2"></span>
+            Expenses Progression
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link income-progression" href="{% url 'income-progression' %}">
+            <span data-feather="bar-chart-2"></span>
+            Income Progression
+          </a>
+        </li>
+        
+      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <span>Settings</span>
+          <span data-feather="settings"></span>
+      </h6>
+      <ul class="nav flex-column mb-2">
+        <li class="nav-item">
+          <a class="nav-link preferences" href="{% url 'preferences' %}">
+            <span data-feather="file-text"></span>
+            User Preferences
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+<script src="{% static 'js/_sidebar.js' %}"></script>

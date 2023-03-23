@@ -1,0 +1,15 @@
+{% if user.is_active %}
+    <div class="input-group">
+        <input type="text" class="form-control" id="searchField" placeholder="Search">
+        <div class="input-group-append">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+        </div>
+    </div>
+{% else %}
+    <div class="input-group">
+        <input type="text" class="form-control" id="searchField" placeholder="Search" disabled>
+        <div class="input-group-append">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,99 @@
+{% extends 'layout/layout_index.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% include 'partials/_messages.html' %}
+                <h1>Dashboard</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb my-3">
+                      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">My Dashboard</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        {% if user.is_authenticated %}
+            {% if user.is_active %}
+                <div class="row">
+                    <div class="col-md-3 d-flex align-items-stretch">
+                        <div class="card mr-3 w-100">
+                            <h5 class="card-title pt-2 px-3">Total expenses in {{ current_month }}</h5>
+                            <p class="card-text pb-2 px-3" style="font-size: 2.5rem;"><strong>{{ total_expenses }} {% if currency %} {{ currency }}{% endif %}</strong></p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-stretch">
+                        <div class="card mx-3 w-100">
+                            <h5 class="card-title pt-2 px-3">Most spent on</h5>
+                            <p class="card-text pb-2 px-3" style="font-size: 2.5rem;"><strong>{{ top_category }}</strong></p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-stretch">
+                        <div class="card mx-3 w-100">
+                            <h5 class="card-title pt-2 px-3">Total income in {{ current_month }}</h5>
+                            <p class="card-text pb-2 px-3" style="font-size: 2.5rem;"><strong>{{ total_income }} {% if currency %} {{ currency }}{% endif %}</strong></p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-stretch">
+                        <div class="card ml-3 w-100">
+                            <h5 class="card-title pt-2 px-3">Net Balance in {{ current_month }}</h5>
+                            <p class="card-text pb-2 px-3" style="font-size: 2.5rem;"><strong>{{ net }} {% if currency %} {{ currency }}{% endif %}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-md-6 d-flex align-items-stretch">
+                        <div class="card mr-3 w-100">
+                            <h5 class="card-title pt-2 px-3">Expenses Dashboard</h5>
+                            <p class="card-text pb-2 px-3">Your expense summary in {{ current_month }}{% if currency %} ({{ currency }}){% endif %}</p>
+                            <div class="expensesChart">
+                                <canvas id="expensesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-stretch">
+                        <div class="card ml-3 w-100">
+                            <h5 class="card-title pt-2 px-3">Income Dashboard</h5>
+                            <p class="card-text pb-2 px-3">Your income summary in {{ current_month }}{% if currency %} ({{ currency }}){% endif %}</p>
+                            <div class="incomeChart">
+                                <canvas id="incomeChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row" style="height: 60vh;">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 d-flex justify-content-center align-items-center">
+                        <div class="card w-100">
+                            <div class="card-title pt-3 text-center align-items-center">
+                                <h5>You must activate your profile using activation link in your email inbox.</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="row" style="height: 60vh;">
+                <div class="col-md-2"></div>
+                <div class="col-md-8 d-flex justify-content-center align-items-center">
+                    <div class="card w-100">
+                        <div class="card-title pt-3 text-center align-items-center">
+                            <h5>You must log in or register to be able to view and store your data.</h5>
+                        </div>
+                        <div class="card-body text-center">
+                            <a href="{% url 'login' %}" class="btn btn-primary btn-sm mx-3">Log In</a>
+                            <a href="{% url 'register' %}" class="btn btn-outline-primary btn-sm mx-3">Register</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        {% endif %}
+    </div>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+
+{% endblock %}
